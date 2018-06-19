@@ -3,7 +3,7 @@ import axios from "axios";
 import './App.css';
 
 import { Button, Card, Image } from 'semantic-ui-react'
-
+{/* <a href="tel:+1-800-555-5555">Call 1-800-555-5555</a> */}
 class OrderCard extends React.Component {
   constructor(props) {
     super(props);
@@ -12,9 +12,6 @@ class OrderCard extends React.Component {
       details: '1 burger, 1 fry',
       cost: 10
     }
-    setTimeout(() => {
-      this.setState({cost: -1})
-    }, 5000);
   }
   render() {
     return (
@@ -24,6 +21,7 @@ class OrderCard extends React.Component {
           <Card.Header>{this.state.status}</Card.Header>
           <Card.Description>
             <ul>
+              <li></li>
               <li>{(this.state.cost > 0 ? this.state.cost : <Button basic color='red'> Estimate </Button>)}</li>
             </ul>
             
@@ -50,6 +48,7 @@ class OrderCard extends React.Component {
     )
   }
 }
+
 
 const CardExampleGroups = () => (
   <Card.Group>
@@ -95,7 +94,7 @@ const CardExampleGroups = () => (
   </Card.Group>
 )
 
-class AdminTable extends React.Component {
+class OrderCardGroup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -109,9 +108,9 @@ class AdminTable extends React.Component {
 
   componentDidMount() {
     axios.post('/getAllOrders')
-    .then(json => {
+    .then(resp => {
       this.setState({
-        orders: json,
+        orders: resp.data.orders,
         isLoaded: true
       });
     });
@@ -127,11 +126,16 @@ class AdminTable extends React.Component {
 
   render() {
     const {orders, isLoaded} = this.state;
-    // if (isLoaded) {
+    if (isLoaded) {
+      let orderComponents = orders.map(order => {
+        return <li key={order._id}>{order._id}</li>
+      });
       return (
-        <h1>yo</h1>
+        <ul>{orderComponents}</ul>
       );
-    // }
+    } else {
+      return (<h1>Loading...</h1>);
+    }
     // let button;
 
     // if (isLoggedIn) {
@@ -170,7 +174,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <OrderCard />
+        <OrderCardGroup />
       {/* <CardExampleGroups /> */}
       {/* <AdminTable /> */}
       </div>
