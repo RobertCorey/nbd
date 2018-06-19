@@ -1,61 +1,99 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import axios from "axios";
 import './App.css';
 
-import { Icon, Label, Menu, Table } from 'semantic-ui-react'
+import { Button, Card, Image } from 'semantic-ui-react'
 
-const TableExamplePagination = () => (
-  <Table celled>
-    <Table.Header>
-      <Table.Row>
-        <Table.HeaderCell>Header</Table.HeaderCell>
-        <Table.HeaderCell>Header</Table.HeaderCell>
-        <Table.HeaderCell>Header</Table.HeaderCell>
-      </Table.Row>
-    </Table.Header>
+class OrderCard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      status: 'new',
+      details: '1 burger, 1 fry',
+      cost: 10
+    }
+    setTimeout(() => {
+      this.setState({cost: -1})
+    }, 5000);
+  }
+  render() {
+    return (
+      <Card fluid>
+        <Card.Content>
+          {/* <Image floated='right' size='mini' src='/assets/images/avatar/large/steve.jpg' /> */}
+          <Card.Header>{this.state.status}</Card.Header>
+          <Card.Description>
+            <ul>
+              <li>{(this.state.cost > 0 ? this.state.cost : <Button basic color='red'> Estimate </Button>)}</li>
+            </ul>
+            
+            {this.state.details}
+          </Card.Description>
+        </Card.Content>
+        <Card.Content extra>
+          <div className='ui four buttons'>
+            <Button basic color='green'>
+              Approve
+            </Button>
+            <Button basic color='green'>
+              Approve
+            </Button>
+            <Button basic color='green'>
+              Approve
+            </Button>
+            <Button basic color='red'>
+              Decline
+            </Button>
+          </div>
+        </Card.Content>
+      </Card>
+    )
+  }
+}
 
-    <Table.Body>
-      <Table.Row>
-        <Table.Cell>
-          <Label ribbon>First</Label>
-        </Table.Cell>
-        <Table.Cell>Cell</Table.Cell>
-        <Table.Cell>Cell</Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>Cell</Table.Cell>
-        <Table.Cell>Cell</Table.Cell>
-        <Table.Cell>Cell</Table.Cell>
-      </Table.Row>
-      <Table.Row>
-        <Table.Cell>Cell</Table.Cell>
-        <Table.Cell>Cell</Table.Cell>
-        <Table.Cell>Cell</Table.Cell>
-      </Table.Row>
-    </Table.Body>
-
-    <Table.Footer>
-      <Table.Row>
-        <Table.HeaderCell colSpan='3'>
-          <Menu floated='right' pagination>
-            <Menu.Item as='a' icon>
-              <Icon name='chevron left' />
-            </Menu.Item>
-            <Menu.Item as='a'>1</Menu.Item>
-            <Menu.Item as='a'>2</Menu.Item>
-            <Menu.Item as='a'>3</Menu.Item>
-            <Menu.Item as='a'>4</Menu.Item>
-            <Menu.Item as='a' icon>
-              <Icon name='chevron right' />
-            </Menu.Item>
-          </Menu>
-        </Table.HeaderCell>
-      </Table.Row>
-    </Table.Footer>
-  </Table>
+const CardExampleGroups = () => (
+  <Card.Group>
+    
+    <Card fluid>
+      <Card.Content>
+        <Image floated='right' size='mini' src='/assets/images/avatar/large/molly.png' />
+        <Card.Header>Molly Thomas</Card.Header>
+        <Card.Meta>New User</Card.Meta>
+        <Card.Description>
+          Molly wants to add you to the group <strong>musicians</strong>
+        </Card.Description>
+      </Card.Content>
+      <Card.Content extra>
+        <div className='ui two buttons'>
+          <Button basic color='green'>
+            Approve
+          </Button>
+          <Button basic color='red'>
+            Decline
+          </Button>
+        </div>
+      </Card.Content>
+    </Card>
+    <Card fluid>
+      <Card.Content>
+        <Image floated='right' size='mini' src='/assets/images/avatar/large/jenny.jpg' />
+        <Card.Header>Jenny Lawrence</Card.Header>
+        <Card.Meta>New User</Card.Meta>
+        <Card.Description>Jenny requested permission to view your contact details</Card.Description>
+      </Card.Content>
+      <Card.Content extra>
+        <div className='ui two buttons'>
+          <Button basic color='green'>
+            Approve
+          </Button>
+          <Button basic color='red'>
+            Decline
+          </Button>
+        </div>
+      </Card.Content>
+    </Card>
+  </Card.Group>
 )
-
 
 class AdminTable extends React.Component {
   constructor(props) {
@@ -126,15 +164,15 @@ function NumberList(props) {
     </ul>
   );
 }
-
 const numbers = [1, 2, 3, 4, 5];
 
 class App extends Component {
   render() {
     return (
       <div>
-      <TableExamplePagination />
-      <AdminTable />
+        <OrderCard />
+      {/* <CardExampleGroups /> */}
+      {/* <AdminTable /> */}
       </div>
     );
   }
