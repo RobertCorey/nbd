@@ -22,7 +22,7 @@ class OrderCard extends React.Component {
       id: this.props._id,
       cost: cost
     }).then(resp => {
-      return this.setState({cost: cost});
+      return this.setState({cost: cost, status: 'quoted'});
     });
 }
 
@@ -42,7 +42,6 @@ class OrderCard extends React.Component {
     return (
       <Card fluid>
         <Card.Content>
-          {/* <Image floated='right' size='mini' src='/assets/images/avatar/large/steve.jpg' /> */}
           <Card.Header>{status}</Card.Header>
           <Card.Description>
             <ul>
@@ -78,8 +77,10 @@ class QuoteButton extends React.Component {
 
   handleClick = () => {
     const value = this.state.value;
-    console.log(value);
-    this.props.onQuoteUpdate(this.state.value);
+    this.props.onQuoteUpdate(this.state.value).then(() => {
+      console.log(this);
+      this.setState({updateWorked: true});
+    });
   }
 
   handleInputChange = event => {
@@ -87,16 +88,22 @@ class QuoteButton extends React.Component {
   }
 
   render() {
+    const cost = this.state.value;
+    const updateWorked = this.state.updateWorked;
     return (
-      <Modal trigger={<Button basic color='red'>Quote Order</Button>}>
-        <Modal.Header>Submit a Quote</Modal.Header>
-        <Modal.Content>
-          <Modal.Description>
-            <Input value={this.state.value} onChange={this.handleInputChange}/>
-            <Button basic color='green' onClick={this.handleClick}>Submit Quote</Button>
-          </Modal.Description>
-        </Modal.Content>
-      </Modal>
+      <span>
+        Cost: {cost > -1 ? `${cost}  ` : null}
+        <Modal trigger={<Button basic color='red'>{cost > -1 ? "Requote" : "Quote"} Order</Button>}>
+          <Modal.Header>Submit a Quote</Modal.Header>
+          <Modal.Content>
+            <Modal.Description>
+              <Input value={this.state.value} onChange={this.handleInputChange}/>
+              <Button basic color='green' onClick={this.handleClick}>Submit Quote</Button>
+              {updateWorked ? "Order Was Quoted!": ""}
+            </Modal.Description>
+          </Modal.Content>
+        </Modal>
+      </span>
     );
   }
 }

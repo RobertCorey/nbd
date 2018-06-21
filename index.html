@@ -37,35 +37,35 @@
 					<section class="wrapper style1 align-center" id="form">
 						<div class="inner medium">
 							<h2>Contact Form</h2>
-							<form>
+							<form id="orderForm">
 								<div class="fields">
 									<div class="field half">
 										<label for="name">Name</label>
-										<input type="text" name="name" id="name" value="" />
+										<input type="text" name="name" id="name" required/>
 									</div>
 									<div class="field half" >
-										<label for="number">Number</label>
-										<input type="text" name="number" id="number" value="" />
+										<label for="number">Phone Number in format XXX-XXX-XXXX</label>
+										<input type="text" name="number" id="number" required pattern="[0-9]{3}[ -][0-9]{3}[ -][0-9]{4}"/>
 									</div>
 									<div class="field">
 										<label for="email">Email</label>
-										<input type="email" name="email" id="email" value="" />
+										<input type="email" name="email" id="email" required/>
 									</div>
 									<div class="field half" id="started">
 										<label for="address1">Pickup Address</label>
-										<input type="text" name="address1" id="address1" value="" />
+										<input type="text" name="address1" id="address1" required/>
 									</div>
 									<div class="field half">
 										<label for="address2">Dropoff Address</label>
-										<input type="text" name="address2" id="address2" value="" />
+										<input type="text" name="address2" id="address2" required/>
 									</div>
 									<div class="field">
 										<label for="message">Message</label>
-										<textarea name="message" id="message" rows="5"></textarea>
+										<textarea name="message" id="message" rows="5" required></textarea>
 									</div>
 								</div>
 								<ul class="actions special">
-									<li><span class="button large" id="submit">Submit</span></li>
+									<li><input type="submit" class="button large" id="submit"></input></li>
 								</ul>
 							</form>
 
@@ -249,34 +249,6 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
-			<script>
-
-
-
-
-			var sub = document.getElementById("submit");
-			sub.onclick = showData;
-
-			function showData(event) {
-				var name = document.getElementById("name").value;
-				var number = document.getElementById("number").value;
-				var email = document.getElementById("email").value;
-				var address1 = document.getElementById("address1").value;
-				var address2 = document.getElementById("address2").value;
-				var message = document.getElementById("message").value;
-
-				const theform = {
-				Name: name,
-				Number: number,
-				Email: email,
-				Address1: address1,
-				Address2: address2,
-				Message: message
-				};
-        		console.log(theform)
-			}
-
-			</script>
-
+			<script src="assets/js/logic.js"></script>
 	</body>
 </html>
