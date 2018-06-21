@@ -3,17 +3,29 @@ import axios from "axios";
 import './App.css';
 import moment from "moment";
 
-import { Button, Card, Image } from 'semantic-ui-react'
+import { Button, Card, Image, Modal, Header, Input, Form} from 'semantic-ui-react'
+
+
 
 class OrderCard extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
+
     this.state = {
       cost: this.props.cost,
       status: this.props.status
     }
   }
+
+  handleUpdateQuote = (cost) => {
+    return axios.post('/updateQuote', {
+      id: this.props._id,
+      cost: cost
+    }).then(resp => {
+      return this.setState({cost: cost});
+    });
+}
+
   render() {
     const { 
       createdOn,
@@ -45,9 +57,8 @@ class OrderCard extends React.Component {
               <li>Start Address: <a href={startAddress.url}>{startAddress.formatted_address}</a></li>
               <li>End Address: <a href={endAddress.url}>{endAddress.formatted_address}</a></li>
               <li> Submitted {moment.duration(moment(new Date()).diff(createdOn)).asMinutes()} minutes ago </li>
-              <li>{(cost > 0 ? cost : <Button basic color='red'> Estimate </Button>)}</li>
+              <li><QuoteButton cost={cost} onQuoteUpdate={this.handleUpdateQuote}/></li>
             </ul>
-            
           </Card.Description>
         </Card.Content>
       </Card>
@@ -55,6 +66,40 @@ class OrderCard extends React.Component {
   }
 }
 
+class QuoteButton extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: '', inProgress: false};
+  }
+
+  componentDidMount() {
+    this.setState({value: this.props.cost});
+  }
+
+  handleClick = () => {
+    const value = this.state.value;
+    console.log(value);
+    this.props.onQuoteUpdate(this.state.value);
+  }
+
+  handleInputChange = event => {
+    this.setState({value: event.target.value});
+  }
+
+  render() {
+    return (
+      <Modal trigger={<Button basic color='red'>Quote Order</Button>}>
+        <Modal.Header>Submit a Quote</Modal.Header>
+        <Modal.Content>
+          <Modal.Description>
+            <Input value={this.state.value} onChange={this.handleInputChange}/>
+            <Button basic color='green' onClick={this.handleClick}>Submit Quote</Button>
+          </Modal.Description>
+        </Modal.Content>
+      </Modal>
+    );
+  }
+}
 
 
 class OrderCardGroup extends React.Component {
@@ -96,8 +141,6 @@ class App extends Component {
     return (
       <div>
         <OrderCardGroup />
-      {/* <CardExampleGroups /> */}
-      {/* <AdminTable /> */}
       </div>
     );
   }
