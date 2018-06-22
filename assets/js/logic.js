@@ -43,7 +43,20 @@ $('#orderForm').submit(ev => {
   ev.preventDefault();
   let data = getDataFromDom();
   if(data.startAddress === 'error' || data.endAddress === 'error') {
-    return alert("There's a problem with an Address you put in. Make sure you choose an address from the dropdown.");
+    //show error message if data.startAddress === 'error'
+    //jquery.hide() , jquery.show(), css display property
+    if(data.startAddress === 'error') {
+      $("#startErr").show(); 
+    }
+    if(data.endAddress === 'error') {
+      $("#endErr").show(); 
+    }
+     
+    return 
+  }
+  
+  if(data.endAddress === 'error') {
+    
   }
   $.ajax({
     method: 'POST',
