@@ -22,7 +22,7 @@ $(() => {
       $('#spinner').show();
       $('#wrapper').hide();
       $.get('/customerAcceptOrder?id=' + id).then(() => {
-        window.location.replace('/')
+        window.location.replace('/accept-redirect.html');
       });
     });
 
@@ -30,7 +30,7 @@ $(() => {
       $('#spinner').show();
       $('#wrapper').hide();
       $.get('/customerRejectOrder?id=' + id).then(() => {
-        window.location.replace('/')
+        window.location.replace('/decline-redirect.html')
       });
     });
   });
