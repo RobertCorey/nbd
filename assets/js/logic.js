@@ -8,7 +8,7 @@ function getDataFromDom(event) {
 
   return {
     customerName: name,
-    customerNumber: number,
+    customerPhone: number,
     customerEmail: email,
     startAddress: getAddress(startAddress),
     endAddress: getAddress(endAddress),
@@ -28,8 +28,8 @@ function getAddress (address) {
   if (!!placeObj) {
     return {
       "formatted_address": placeObj.formatted_address,
-      "url": placeObj.url
-    }
+      "url": encodeURIComponent(placeObj.url)
+    };
   } else {
     return 'error';
   }
@@ -45,7 +45,12 @@ $('#orderForm').submit(ev => {
   if(data.startAddress === 'error' || data.endAddress === 'error') {
     return alert("There's a problem with an Address you put in. Make sure you choose an address from the dropdown.");
   }
-  $.post('/createOrder', data).then(() => {
+  $.ajax({
+    method: 'POST',
+    url: '/createOrder',
+    contentType: 'application/json',
+    data: JSON.stringify(data)
+  }).then(() => {
     //redirect goes here
   });
 });
