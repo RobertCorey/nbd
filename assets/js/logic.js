@@ -51,6 +51,6 @@ $('#orderForm').submit(ev => {
     contentType: 'application/json',
     data: JSON.stringify(data)
   }).then(() => {
-    //redirect goes here
+    window.location.replace('/confirmation-page.html');
   });
 });
