@@ -1,25 +1,50 @@
+var name, number, email, message, startAddress, endAddress;
+
 function getDataFromDom(event) {
-  var name = document.getElementById("name").value;
-  var number = document.getElementById("number").value;
-  var email = document.getElementById("email").value;
-  var address1 = document.getElementById("address1").value;
-  var address2 = document.getElementById("address2").value;
-  var message = document.getElementById("message").value;
+  name = document.getElementById("name").value;
+  number = document.getElementById("number").value;
+  email = document.getElementById("email").value;
+  message = document.getElementById("message").value;
 
   return {
     customerName: name,
     customerNumber: number,
     customerEmail: email,
-    startAddress: address1,
-    endAddress: address2,
+    startAddress: getAddress(startAddress),
+    endAddress: getAddress(endAddress),
     details: message
   };
+}
+
+function initAutocomplete() {
+  // Create the autocomplete object, restricting the search to geographical
+  // location types.
+  startAddress = new google.maps.places.Autocomplete(document.getElementById('startAddress'));
+  endAddress = new google.maps.places.Autocomplete(document.getElementById('endAddress'));
+}
+
+function getAddress (address) {
+  let placeObj = address.getPlace();
+  if (!!placeObj) {
+    return {
+      "formatted_address": placeObj.formatted_address,
+      "url": placeObj.url
+    }
+  } else {
+    return 'error';
+  }
 }
 
 function createNewOrder() {
   $.post('/createOrder', getDataFromDom())
 }
 $('#orderForm').submit(ev => {
-  console.log(ev);
   ev.preventDefault();
-})
+  let data = getDataFromDom();
+  if(data.startAddress === 'error' || data.endAddress === 'error') {
+    return alert("There's a problem with an Address you put in. Make sure you choose an address from the dropdown.");
+  }
+  $.post('/createOrder', data).then(() => {
+    //redirect goes here
+  });
+});

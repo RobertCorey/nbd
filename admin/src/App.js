@@ -78,7 +78,6 @@ class QuoteButton extends React.Component {
   handleClick = () => {
     const value = this.state.value;
     this.props.onQuoteUpdate(this.state.value).then(() => {
-      console.log(this);
       this.setState({updateWorked: true});
     });
   }
@@ -106,6 +105,10 @@ class QuoteButton extends React.Component {
       </span>
     );
   }
+}
+
+class RejectButton extends React.Component {
+
 }
 
 
