@@ -24,7 +24,13 @@ class OrderCard extends React.Component {
     }).then(resp => {
       return this.setState({cost: cost, status: 'quoted'});
     });
-}
+  }
+
+  handleMarkAsDelivered = () => {
+    axios.post('/fulfillOrder', {id: this.props._id}).then(resp => {
+      return this.setState({status: 'fulfilled'});
+    })
+  }
 
   render() {
     const { 
@@ -57,6 +63,7 @@ class OrderCard extends React.Component {
               <li>End Address: <a href={endAddress.url}>{endAddress.formatted_address}</a></li>
               <li> Submitted {moment.duration(moment(new Date()).diff(createdOn)).asMinutes()} minutes ago </li>
               <li><QuoteButton cost={cost} onQuoteUpdate={this.handleUpdateQuote}/></li>
+              <li><Button basic color="green" onClick={this.handleMarkAsDelivered}>Mark As Delivered</Button></li>
             </ul>
           </Card.Description>
         </Card.Content>
