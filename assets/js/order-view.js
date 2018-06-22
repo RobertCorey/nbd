@@ -1,7 +1,7 @@
 $(() => {
   let id = encodeURIComponent(new URL(window.location.href).searchParams.get('id'));
   $.get('/getOrder?id=' + id).then((data) => {
-    // if(data.status != 'quoted') {return;}
+    if(data.status != 'quoted') {return;}
     let orderDetails = `
     ${data.status}
     <h2> Order Cost: ${data.cost}</h2>
