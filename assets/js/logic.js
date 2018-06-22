@@ -38,6 +38,7 @@ function getAddress (address) {
 function createNewOrder() {
   $.post('/createOrder', getDataFromDom())
 }
+
 $('#orderForm').submit(ev => {
   ev.preventDefault();
   let data = getDataFromDom();
